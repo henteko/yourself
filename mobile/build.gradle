@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "com.henteko07.yourself"
+        minSdkVersion 19
+        targetSdkVersion 20
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //wearApp project(':wear')
+    compile 'com.google.android.gms:play-services-wearable:+'
+    compile 'com.android.support:support-v4:20.0+'
+
+    // Supports Android 4.0.3 and later (API level 15)
+    compile 'com.embarkmobile:zxing-android-minimal:2.0.0@aar'
+
+    // Convenience library to launch the scanning and encoding Activities.
+    // It automatically picks the best scanning library from the above two, depending on the
+    // Android version and what is available.
+    compile 'com.embarkmobile:zxing-android-integration:2.0.0@aar'
+
+    // Version 3.0.x of zxing core contains some code that is not compatible on Android 2.2 and earlier.
+    // This mostly affects encoding, but you should test if you plan to support these versions.
+    // Older versions e.g. 2.2 may also work if you need support for older Android versions.
+    compile 'com.google.zxing:core:3.0.1'
+}
+
+apply plugin: 'deploygate'
+deploygate {
+    userName = deploygateUserName
+    token = deploygateToken
+
+    apks {
+        debug {
+            sourceFile = file("build/outputs/apk/mobile-debug.apk")
+        }
+    }
+}
